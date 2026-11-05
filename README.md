@@ -12,7 +12,7 @@ Theme Beamer LaTeX dựng lại từ template PowerPoint của PECLab / HPCA (Tr
 
 
 
-## 1. Cấu trúc thư mục
+## 📁 1. Cấu trúc thư mục
 
 ```
 HPCA_beamer/
@@ -29,7 +29,7 @@ HPCA_beamer/
 
 File `.tex` của bạn phải nằm **cùng thư mục** với `beamerthemeHPCA.sty` và thư mục `images/`. Nếu chỉ có file `.tex` mà không có file `beamerthemeHPCA.sty` và thư mục `images/` thì compiler sẽ báo lỗi "theme và ảnh không tìm thấy "
 
-## 🛠️ 2. Cách sử dụng và môi trường biên dịch 
+## ⚙️ 2. Cách sử dụng và môi trường biên dịch 
 
 - Có thể sử dụng các trình biên dịch online như Overleaf hoặc TexPage, hoặc tự setup cài đặt trình biên dịch trên máy (VD VS Code + LaTeX Workshop + TexLive/MikTeX hoặc TeXstudio/TexWork/TexMaker + TexLive/MikTeX).
 - Với Overleaf, copy Project rồi sửa theo nhu cầu (do template gốc chỉ xem).
@@ -39,7 +39,7 @@ File `.tex` của bạn phải nằm **cùng thư mục** với `beamerthemeHPCA
 
 > Theme được kiểm tra bằng **XeLaTeX**. LuaLaTeX chưa kiểm chứng được (môi trường thử không tìm thấy font hệ thống khi dùng LuaLaTeX), nếu gặp lỗi font thì dùng XeLaTeX.
 
-## 🛠️ 3. Compile
+## ▶️ 3. Compile
 
 - Với Overleaf, chỉ cần bấm compile 1 lần.
 
@@ -63,7 +63,7 @@ Các lần compile sau (khi file `.aux` đã có sẵn) thường chỉ cần 1 
 
 Nếu dùng VS Code với LaTeX Workshop hoặc TeXstudio, đổi engine sang **XeLaTeX** (hoặc chọn recipe `latexmk (xelatex)`).
 
-## 📦 4. Chọn tỉ lệ 16:9 hoặc 4:3
+## 📐 4. Chọn tỉ lệ 16:9 hoặc 4:3
 
 Chỉ cần đổi option của lớp `beamer`, theme tự nhận:
 
@@ -82,7 +82,7 @@ File mẫu: `Slide_HPCA.tex` (16:9) và `Slide_HPCA_43.tex` (4:3), nội dung gi
 
 - Khuyến cáo : nên sử dụng tỉ lệ 16:9 giúp bố cục đỡ rối hơn.
 
-## 📦 5. Ví dụ bắt đầu nhanh
+## 🚀 5. Ví dụ bắt đầu nhanh
 
 ```latex
 \documentclass[aspectratio=169,t,10pt]{beamer}   % nhớ có 't' để nội dung bám lên trên
@@ -113,7 +113,7 @@ File mẫu: `Slide_HPCA.tex` (16:9) và `Slide_HPCA_43.tex` (4:3), nội dung gi
 \end{document}
 ```
 
-## 🗺️  6. Các lệnh của theme
+## ⌨️  6. Các lệnh của theme
 
 | Lệnh | Tác dụng |
 |---|---|
@@ -161,7 +161,7 @@ Nếu sau phần chính bạn còn frame thường mà không muốn ô số hi�
 
 Các frame dùng `hpcaappendixframe` không có ô số nên không cần lệnh này.
 
-## 🌟 7. Tùy chỉnh
+## 🎨 7. Tùy chỉnh
 
 ### Màu sắc
 
@@ -215,7 +215,7 @@ Thay ảnh trong `images/` nhưng **giữ nguyên tên file**. Vị trí và kí
 - **Chữ tiếng Việt mất dấu hoặc lỗi font:** đảm bảo compile bằng XeLaTeX hoặc LuaLaTeX, và file lưu ở mã hóa UTF-8.
 - **Frame quá dài:** nội dung vượt vùng sẽ tràn xuống logo chân trang. Vùng nội dung rộng khoảng 32 cm × 16 cm trên khổ gốc.
 
-## ⚠️ 9. Hạn chế
+## 🚧 9. Hạn chế
 
 - Bản màu khác (chỉ có màu navy).
 - Có thể vượt thời gian compile cho phép của Overleaf (yêu cầu nâng cấp).
