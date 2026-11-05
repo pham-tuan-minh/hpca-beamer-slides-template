@@ -1,0 +1,306 @@
+% ---------------------------------------------------------------------
+% beamerthemeHPCA.sty
+% Beamer theme rebuilt from the PECLab / HPCA PowerPoint template
+% (16x9_HPCA_Slide.pptx and 4x3_HPCA_Slide.pptx, HUST - School of Electrical
+% & Electronic Engineering).
+%
+% - Everything is drawn with TikZ; only the logos are images (images/).
+% - Both PowerPoint versions are 19.05 cm high (16:9 = 33.867 cm wide,
+%   4:3 = 25.4 cm wide), so 1 "pptx cm" = \paperheight/19.05 in both cases.
+% - Select the format with the class option:  aspectratio=169  or  aspectratio=43.
+%   For 43 the theme sets the page to 120 x 90 mm (same height as 16:9, so all
+%   font sizes and vertical positions stay identical to the PowerPoint file)
+%   instead of Beamer's default 128 x 96 mm.
+% - Compile with XeLaTeX or LuaLaTeX (fontspec), TWICE (remember picture).
+% ---------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeHPCA}[2026/11/04 HPCA / PECLab Beamer theme (16:9 and 4:3)]
+
+\RequirePackage{tikz}
+\usetikzlibrary{shadings,positioning}
+\RequirePackage{graphicx}
+\RequirePackage{pifont}
+\RequirePackage{xcolor}
+% fix-cm lets the Computer Modern math fonts scale to ANY size. Without it, math in
+% titles / TOC triggers "Font shape OML/cmm/m/it in size <13> not available"
+% (this theme uses odd sizes such as 6.5, 9.5, 13, 16 pt). Part of base LaTeX.
+\RequirePackage{fix-cm}
+\RequirePackage{fontspec}
+
+\graphicspath{{images/}{./}}
+
+% ----- colours ---------------------------------------------------------
+\definecolor{hpcamain}{HTML}{002060}   % navy used everywhere in the template
+\definecolor{hpcatocL}{HTML}{BBC0CC}   % left end of the contents bars
+\definecolor{hpcatocR}{HTML}{F4F4F6}   % right end of the contents bars
+\definecolor{hpcarule}{HTML}{7F7F7F}   % thin grey rules
+
+% ----- fonts -----------------------------------------------------------
+% The template uses Lato; Carlito (metric clone of Calibri) is the fallback.
+% Override before \usetheme with e.g. \newcommand{\hpcamainfont}{Calibri}.
+\providecommand{\hpcamainfont}{Lato}
+\edef\hpca@fontname{\hpcamainfont}
+\def\hpca@setfont#1{\setmainfont[Ligatures=TeX]{#1}\setsansfont[Ligatures=TeX]{#1}}
+\expandafter\IfFontExistsTF\expandafter{\hpca@fontname}{%
+  \expandafter\hpca@setfont\expandafter{\hpca@fontname}%
+}{%
+  \IfFontExistsTF{Carlito}{%
+    \hpca@setfont{Carlito}%
+  }{%
+    \PackageWarning{beamerthemeHPCA}{Neither \hpca@fontname\space nor Carlito found; using the default font}%
+  }%
+}
+\renewcommand{\familydefault}{\sfdefault}
+
+% ----- aspect ratio: 16:9 (default) or 4:3 ------------------------------------
+% \insertaspectratio is defined by beamer.cls (class option aspectratio=...).
+\newif\ifhpca@narrow
+\def\hpca@arfour{43}
+\ifx\insertaspectratio\hpca@arfour\hpca@narrowtrue\fi
+
+% ----- unit: 1 "pptx cm" = page height / 19.05 -----------------------------------
+\newlength{\hpcau}
+\ifhpca@narrow
+  \geometry{papersize={120mm,90mm}}
+  \setlength{\hpcau}{\dimexpr 90mm*100/1905\relax}
+\else
+  \setlength{\hpcau}{\dimexpr\paperheight*100/1905\relax}
+\fi
+
+% ----- layout metrics measured on the .pptx files (in pptx cm) --------------------
+% L / R = distance from the left / right page edge; Y = distance from the top.
+\ifhpca@narrow
+  % 4x3_HPCA_Slide.pptx (25.4 x 19.05 cm)
+  \def\hpca@tmL{0.66}   \def\hpca@tmR{0.72}      % text margins
+  \def\hpca@ruleL{0.69} \def\hpca@ruleR{0.66}    % rule under the frame title (y = 1.52)
+  \def\hpca@footL{0.10} \def\hpca@footR{0.15}    % footer rule
+  \def\hpca@footY{17.80}
+  \def\hpca@boxX{0.11}  \def\hpca@boxY{0.09}  \def\hpca@boxH{1.40}   % number box
+  \def\hpca@ttlX{1.81}  \def\hpca@ttlW{23.1}     % title next to number box
+  \def\hpca@ttlXo{0.96} \def\hpca@ttlWo{23.8}    % title without number box
+  \def\hpca@ctrW{22}                             % centred title width
+  \def\hpca@topL{0.25}  \def\hpca@topR{0.00}  \def\hpca@topY{2.25}   % title page: top rule
+  \def\hpca@midL{2.27}  \def\hpca@midR{2.56}     % title page: rule below the title
+  \def\hpca@seeeR{0.77} \def\hpca@hpcaR{0.15}    % title page: SEEE / HPCA logos from the right
+  \def\hpca@titleW{20.9}                         % title text width
+  \def\hpca@colA{9.8}   \def\hpca@colB{10.0}      % author block columns
+  \def\hpca@tocX{1.36}  \def\hpca@tocW{19.4}     % contents: box offset / bar text width
+\else
+  % 16x9_HPCA_Slide.pptx (33.867 x 19.05 cm)
+  \def\hpca@tmL{0.95}   \def\hpca@tmR{0.95}
+  \def\hpca@ruleL{0.92} \def\hpca@ruleR{0.88}
+  \def\hpca@footL{0.17} \def\hpca@footR{0.17}
+  \def\hpca@footY{17.88}
+  \def\hpca@boxX{0.30}  \def\hpca@boxY{0.14}  \def\hpca@boxH{1.32}
+  \def\hpca@ttlX{1.85}  \def\hpca@ttlW{30}
+  \def\hpca@ttlXo{0.95} \def\hpca@ttlWo{31}
+  \def\hpca@ctrW{24}
+  \def\hpca@topL{0.13}  \def\hpca@topR{0.21}  \def\hpca@topY{2.12}
+  \def\hpca@midL{3.02}  \def\hpca@midR{3.42}
+  \def\hpca@seeeR{0.77} \def\hpca@hpcaR{0.20}
+  \def\hpca@titleW{27.9}
+  \def\hpca@colA{11.0}  \def\hpca@colB{10.8}
+  \def\hpca@tocX{1.38}  \def\hpca@tocW{24.4}
+\fi
+
+% ----- page geometry ---------------------------------------------------
+\setbeamersize{text margin left=\hpca@tmL\hpcau, text margin right=\hpca@tmR\hpcau}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{\leavevmode\hbox to \paperwidth{\vrule height 1.62\hpcau depth 0pt width 0pt\hss}}
+\setbeamertemplate{footline}{\leavevmode\hbox to \paperwidth{\vrule height 1.17\hpcau depth 0pt width 0pt\hss}}
+
+% ----- colours in beamer terms ------------------------------------------
+\setbeamercolor{normal text}{fg=hpcamain,bg=white}
+\setbeamercolor{structure}{fg=hpcamain}
+\setbeamercolor{frametitle}{fg=hpcamain}
+\setbeamercolor{title}{fg=hpcamain}
+\setbeamercolor{item}{fg=hpcamain}
+\setbeamercolor{itemize item}{fg=hpcamain}
+\setbeamercolor{itemize subitem}{fg=hpcamain}
+\setbeamercolor{itemize subsubitem}{fg=hpcamain}
+\setbeamercolor{enumerate item}{fg=hpcamain}
+\setbeamercolor{enumerate subitem}{fg=hpcamain}
+\setbeamercolor{caption name}{fg=hpcamain}
+\setbeamercolor{block title}{bg=hpcamain,fg=white}
+\setbeamercolor{block body}{bg=hpcamain!8,fg=hpcamain}
+\setbeamercolor{block title alerted}{bg=red!70!black,fg=white}
+\setbeamercolor{block body alerted}{bg=red!8,fg=hpcamain}
+
+% ----- fonts in beamer terms (pptx pt x 0.4724 for a 16 cm wide page) -----
+\setbeamerfont{frametitle}{series=\bfseries,size*={13}{15}}
+\setbeamerfont{title}{series=\bfseries,size*={15}{18}}
+\setbeamerfont{itemize/enumerate body}{size*={10.5}{13}}
+\setbeamerfont{itemize/enumerate subbody}{size*={9.5}{12}}
+\setbeamerfont{itemize/enumerate subsubbody}{size*={8.5}{11}}
+\setbeamerfont{block title}{series=\bfseries}
+\setbeamerfont{footnote}{size*={7}{8.5}}
+
+% ----- lists: ❖ then ➢ like the Wingdings bullets of the template -----------
+\setbeamertemplate{itemize item}{\small\ding{118}}
+\setbeamertemplate{itemize subitem}{\footnotesize\ding{226}}
+\setbeamertemplate{itemize subsubitem}{\scriptsize\ding{110}}
+\setbeamertemplate{enumerate item}{\insertenumlabel.}
+\setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+
+% ----- TikZ helpers (pptx cm; y = distance from the top edge) --------------------
+% from the left edge:   \hpca@put[anchor]{x}{y}{content}
+\newcommand{\hpca@put}[4][north west]{%
+  \node[anchor=#1,inner sep=0pt,xshift=#2\hpcau,yshift=-#3\hpcau]
+    at (current page.north west) {#4};}
+% from the right edge:  \hpca@putr[anchor]{x}{y}{content}
+\newcommand{\hpca@putr}[4][north east]{%
+  \node[anchor=#1,inner sep=0pt,xshift=-#2\hpcau,yshift=-#3\hpcau]
+    at (current page.north east) {#4};}
+% centred horizontally: \hpca@putc[anchor]{dx}{y}{content}
+\newcommand{\hpca@putc}[4][north]{%
+  \node[anchor=#1,inner sep=0pt,xshift=#2\hpcau,yshift=-#3\hpcau]
+    at (current page.north) {#4};}
+% horizontal rule: \hpca@hline{left margin}{right margin}{y}{colour}{width}
+\newcommand{\hpca@hline}[5]{%
+  \draw[#4,line width=#5]
+    ([xshift=#1\hpcau,yshift=-#3\hpcau]current page.north west) --
+    ([xshift=-#2\hpcau,yshift=-#3\hpcau]current page.north east);}
+
+% ----- toggles -----------------------------------------------------------
+\newif\ifhpca@shownum   \hpca@shownumtrue     % number box next to frame title
+\newif\ifhpca@center    \hpca@centerfalse     % centred frame title
+\newif\ifhpca@pagenum   \hpca@pagenumtrue     % page number in the footer
+\newif\ifhpca@appendix  \hpca@appendixfalse   % inside an appendix content frame
+\newcommand{\hidesectionnumber}{\global\hpca@shownumfalse}
+\newcommand{\showsectionnumber}{\global\hpca@shownumtrue}
+\newcommand{\hidepagenumber}{\global\hpca@pagenumfalse}
+\newcommand{\showpagenumber}{\global\hpca@pagenumtrue}
+
+% ----- footer shared by every content slide ----------------------------------
+\newcommand{\hpca@footer}{%
+  \hpca@hline{\hpca@footL}{\hpca@footR}{\hpca@footY}{black}{0.4pt}%
+  \hpca@put{0.33}{17.98}{\includegraphics[width=2.70\hpcau]{logo-peclab}}%
+  \hpca@putc{0}{17.96}{\includegraphics[width=3.47\hpcau]{logo-hpca}}%
+  \ifhpca@pagenum
+    \hpca@putr[south east]{0.77}{18.95}{\fontsize{6.5}{8}\selectfont\color{hpcamain}\insertframenumber}%
+  \fi}
+
+\newcommand{\hpca@contentbg}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \hpca@hline{\hpca@ruleL}{\hpca@ruleR}{1.52}{hpcarule}{0.4pt}%
+    \hpca@footer
+  \end{tikzpicture}}
+
+\setbeamertemplate{background canvas}{\color{white}\rule{\paperwidth}{\paperheight}}
+\setbeamertemplate{background}{\hpca@contentbg}
+
+% ----- frame title: optional navy number box + bold title ---------------------
+\setbeamertemplate{frametitle}{%
+  \vbox to 0pt{\hbox{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \ifhpca@appendix
+      \hpca@put[west]{10.76}{0.86}{\parbox{\textwidth}{\raggedright
+        \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}}%
+    \else
+    \ifhpca@center
+      \hpca@putc[center]{0}{0.86}{\parbox{\hpca@ctrW\hpcau}{\centering
+        \usebeamerfont{frametitle}\fontsize{15}{18}\selectfont\usebeamercolor[fg]{frametitle}\insertframetitle}}%
+    \else
+      \ifhpca@shownum
+        \ifnum\value{section}>0
+          \hpca@put{\hpca@boxX}{\hpca@boxY}{\setlength{\fboxsep}{0pt}\colorbox{hpcamain}{\parbox[c][\hpca@boxH\hpcau][c]{1.28\hpcau}{\centering
+            \usebeamerfont{frametitle}\color{white}\thesection}}}%
+          \hpca@put[west]{\hpca@ttlX}{0.86}{\parbox{\hpca@ttlW\hpcau}{\raggedright
+            \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}}%
+        \else
+          \hpca@put[west]{\hpca@ttlXo}{0.86}{\parbox{\hpca@ttlWo\hpcau}{\raggedright
+            \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}}%
+        \fi
+      \else
+        \hpca@put[west]{\hpca@ttlXo}{0.86}{\parbox{\hpca@ttlWo\hpcau}{\raggedright
+          \usebeamerfont{frametitle}\usebeamercolor[fg]{frametitle}\insertframetitle}}%
+      \fi
+    \fi
+    \fi
+  \end{tikzpicture}}\vss}\vskip-1.80\hpcau}
+
+% ----- title page ------------------------------------------------------------
+\newcommand{\hpcadoctype}[1]{\gdef\hpca@doctype{#1}}
+\gdef\hpca@doctype{}
+\gdef\hpca@rows{}
+% \hpcainfo{Label:}{Value}  -- add one row to the block under the title (repeatable)
+\newcommand{\hpcainfo}[2]{\g@addto@macro\hpca@rows{\bfseries #1 & #2\\[0.6ex]}}
+
+\newcommand{\hpca@titlebg}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \hpca@put{0.13}{0.13}{\includegraphics[width=6.08\hpcau]{logo-peclab}}%
+    \hpca@putr{\hpca@seeeR}{0.25}{\includegraphics[width=5.30\hpcau]{logo-seee}}%
+    \hpca@hline{\hpca@topL}{\hpca@topR}{\hpca@topY}{hpcarule}{0.4pt}%
+    \hpca@hline{\hpca@midL}{\hpca@midR}{12.06}{hpcarule}{0.4pt}%
+    \hpca@put{0.15}{17.09}{\includegraphics[width=12.03\hpcau]{logo-hust}}%
+    \hpca@putr{\hpca@hpcaR}{17.09}{\includegraphics[width=5.80\hpcau]{logo-hpca}}%
+  \end{tikzpicture}}
+
+% Use:  \hpcatitlepage
+\newcommand{\hpcatitlepage}{%
+  {\setbeamertemplate{background}{\hpca@titlebg}%
+   \begin{frame}[plain]
+     \begin{tikzpicture}[remember picture,overlay]
+       \hpca@putc[center]{0}{7.50}{\parbox{\hpca@titleW\hpcau}{\centering
+         \ifx\hpca@doctype\@empty\else
+           {\fontsize{16}{19}\selectfont\bfseries\color{hpcamain}\hpca@doctype\par}\vspace{1.0\baselineskip}%
+         \fi
+         {\fontsize{16}{19}\selectfont\color{hpcamain}\inserttitle\par}}}%
+       \hpca@putc[north]{0}{12.88}{{\fontsize{13}{16}\selectfont\color{black}%
+         \begin{tabular}{@{}p{\hpca@colA\hpcau}@{}p{\hpca@colB\hpcau}@{}}
+         \hpca@rows
+       \end{tabular}}}%
+     \end{tikzpicture}
+   \end{frame}}}
+
+% ----- contents slide: navy number box + grey gradient bar ---------------------
+\setbeamertemplate{section in toc}{%
+  \leavevmode\hspace*{\hpca@tocX\hpcau}%
+  \begin{tikzpicture}[baseline=(bar.center)]
+    \node[fill=hpcamain,text=white,minimum width=1.28\hpcau,minimum height=1.40\hpcau,
+          inner sep=0pt,font=\fontsize{13}{15}\selectfont\bfseries] (num) {\inserttocsectionnumber};
+    \node[right=0.27\hpcau of num,anchor=west,minimum height=1.44\hpcau,text width=\hpca@tocW\hpcau,
+          inner xsep=0.4\hpcau,inner ysep=0pt,align=left,text=hpcamain,
+          left color=hpcatocL,right color=hpcatocR,shading angle=90,
+          font=\fontsize{13}{15}\selectfont\bfseries] (bar) {\inserttocsection};
+  \end{tikzpicture}\par\vskip 0.92\hpcau}
+\setbeamertemplate{subsection in toc}{}
+\setbeamertemplate{section in toc shaded}[default][100]
+
+% \hpcatoc{Contents} -- contents frame with centred title
+\newcommand{\hpcatoc}[1]{%
+  {\hpca@centertrue
+   \begin{frame}{#1}
+     \vspace{1.75\hpcau}
+     \tableofcontents
+   \end{frame}}}
+
+% ----- appendix divider: navy panel on the left ----------------------------------
+\newcommand{\hpca@appendixbg}[1]{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \hpca@hline{9.86}{\hpca@ruleR}{1.52}{hpcarule}{0.4pt}%
+    \hpca@put{0}{0}{\textcolor{hpcamain}{\rule{9.86\hpcau}{17.92\hpcau}}}%
+    \hpca@put[west]{0.93}{9.10}{\fontsize{17}{20}\selectfont\color{white}#1}%
+    \hpca@footer
+  \end{tikzpicture}}
+% \hpcaappendix{Appendix}
+\newcommand{\hpcaappendix}[1]{%
+  {\setbeamertemplate{background}{\hpca@appendixbg{#1}}%
+   \begin{frame}[plain]\end{frame}}}
+
+% Appendix frame WITH content: navy panel on the left (label in the panel),
+% title and content in the white area on the right.
+%   \begin{hpcaappendixframe}{Appendix}{Frame title}   % title may be {}
+%     ... normal frame content ...
+%   \end{hpcaappendixframe}
+% Frame options go in square brackets, e.g. \begin{hpcaappendixframe}[fragile]{Appendix}{Code}
+\newenvironment{hpcaappendixframe}[3][]{%
+  \newgeometry{left=10.76\hpcau,right=\hpca@tmR\hpcau}%
+  \hpca@appendixtrue
+  \setbeamertemplate{background}{\hpca@appendixbg{#2}}%
+  \begin{frame}[environment=hpcaappendixframe,#1]{#3}}%
+  {\end{frame}\restoregeometry}
+
+\endinput
