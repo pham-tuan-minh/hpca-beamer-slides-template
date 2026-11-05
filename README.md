@@ -1,6 +1,6 @@
 # Beamer theme HPCA / PECLab
 
-Theme Beamer LaTeX dựng lại từ template PowerPoint của PECLab / HPCA (Trường Điện – Điện tử, ĐH Bách khoa Hà Nội), hỗ trợ **16:9** và **4:3**.
+Theme Beamer LaTeX dựng lại từ template PowerPoint của PECLab / HPCA (Trường Điện – Điện tử, ĐH Bách khoa Hà Nội), hỗ trợ kích thước **16:9** và **4:3**.
 
 
 
@@ -126,7 +126,6 @@ File mẫu: `Slide_HPCA.tex` (16:9) và `Slide_HPCA_43.tex` (4:3), nội dung gi
 | `\hpcainfo{Nhãn:}{Giá trị}` | Thêm một dòng vào khối thông tin dưới tiêu đề. Gọi nhiều lần để thêm nhiều dòng. |
 | `\hpcatitlepage` | Slide tiêu đề: logo PECLab, SEEE, Bách Khoa, HPCA. |
 | `\hpcatoc{Tiêu đề}` | Slide mục lục: mỗi `\section` thành một ô số màu navy kèm thanh gradient xám. |
-| `\hpcaappendix{Chữ}` | Slide chia phần kiểu Appendix: chỉ có khối navy bên trái, **không có nội dung**. |
 | `\begin{hpcaappendixframe}{Chữ}{Tiêu đề}` | Slide phụ lục **có nội dung**: khối navy bên trái, tiêu đề và nội dung ở vùng trắng bên phải. |
 | `\hidesectionnumber` / `\showsectionnumber` | Tắt / bật ô số mục cạnh tiêu đề frame. |
 | `\hidepagenumber` / `\showpagenumber` | Tắt / bật số trang. |
