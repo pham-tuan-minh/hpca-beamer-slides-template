@@ -1,20 +1,15 @@
-# Beamer theme HPCA / PECLab
+# 📚 Beamer theme HPCA / PECLab
 
 Theme Beamer LaTeX dựng lại từ template PowerPoint của PECLab / HPCA (Trường Điện – Điện tử, ĐH Bách khoa Hà Nội), hỗ trợ kích thước **16:9** và **4:3**.
 
+## 📌 Slide powerpoint HPCA
 
+- [Link template slide powerpoint.](https://drive.google.com/drive/folders/1zCpwRfRYwgJO5SkwVazsj9Tne1B6KyyT)
 
-## Slide powerpoint HPCA
+## 📌 Link Overleaf Project
 
-[Link template slide powerpoint.](https://drive.google.com/drive/folders/1zCpwRfRYwgJO5SkwVazsj9Tne1B6KyyT)
+- [Link Overleaf (chỉ xem, muốn sửa cần copy project).](https://www.overleaf.com/project/6aeaf462f59e426e6bf9e3e2/share#e27d23099b18f94c2c4d8d25b04c1641d9eb82c58b8ae70a)
 
-## Link Overleaf Project
-
-[Link Overleaf (chỉ xem, muốn sửa cần copy project).](https://www.overleaf.com/project/6aeaf462f59e426e6bf9e3e2/share#e27d23099b18f94c2c4d8d25b04c1641d9eb82c58b8ae70a)
-
-## link github repo
-
-[Link github repo.](https://github.com/pham-tuan-minh/hpca-beamer-slides-template)
 
 
 ## 1. Cấu trúc thư mục
@@ -34,17 +29,17 @@ HPCA_beamer/
 
 File `.tex` của bạn phải nằm **cùng thư mục** với `beamerthemeHPCA.sty` và thư mục `images/`. Nếu chỉ có file `.tex` mà không có file `beamerthemeHPCA.sty` và thư mục `images/` thì compiler sẽ báo lỗi "theme và ảnh không tìm thấy "
 
-## 2. Cách sử dụng và môi trường biên dịch 
+## 🛠️ 2. Cách sử dụng và môi trường biên dịch 
 
 - Có thể sử dụng các trình biên dịch online như Overleaf hoặc TexPage, hoặc tự setup cài đặt trình biên dịch trên máy (VD VS Code + LaTeX Workshop + TexLive/MikTeX hoặc TeXstudio/TexWork/TexMaker + TexLive/MikTeX).
 - Với Overleaf, copy Project rồi sửa theo nhu cầu (do template gốc chỉ xem).
-- **Sử dụng compiler XeLaTeX hoặc LuaLaTeX** (theme dùng `fontspec`). Không compile được bằng pdfLaTeX.
+- ⚠️ **Quan trọng: Sử dụng compiler XeLaTeX hoặc LuaLaTeX** (theme dùng `fontspec`). Không compile được bằng pdfLaTeX.
 - Các gói: `tikz`, `pifont`, `fontspec`, `fix-cm`. Đều có sẵn trong TeX Live và MiKTeX bản đầy đủ.
 - Font: theme ưu tiên **Lato**. Nếu máy không có Lato thì tự dùng **Carlito** (giống Calibri). Nếu cả hai đều không có, LaTeX báo cảnh báo và dùng font mặc định.
 
 > Theme được kiểm tra bằng **XeLaTeX**. LuaLaTeX chưa kiểm chứng được (môi trường thử không tìm thấy font hệ thống khi dùng LuaLaTeX), nếu gặp lỗi font thì dùng XeLaTeX.
 
-## 3. Compile
+## 🛠️ 3. Compile
 
 - Với Overleaf, chỉ cần bấm compile 1 lần.
 
@@ -68,7 +63,7 @@ Các lần compile sau (khi file `.aux` đã có sẵn) thường chỉ cần 1 
 
 Nếu dùng VS Code với LaTeX Workshop hoặc TeXstudio, đổi engine sang **XeLaTeX** (hoặc chọn recipe `latexmk (xelatex)`).
 
-## 4. Chọn tỉ lệ 16:9 hoặc 4:3
+## 📦 4. Chọn tỉ lệ 16:9 hoặc 4:3
 
 Chỉ cần đổi option của lớp `beamer`, theme tự nhận:
 
@@ -87,7 +82,7 @@ File mẫu: `Slide_HPCA.tex` (16:9) và `Slide_HPCA_43.tex` (4:3), nội dung gi
 
 - Khuyến cáo : nên sử dụng tỉ lệ 16:9 giúp bố cục đỡ rối hơn.
 
-## 5. Ví dụ bắt đầu nhanh
+## 📦 5. Ví dụ bắt đầu nhanh
 
 ```latex
 \documentclass[aspectratio=169,t,10pt]{beamer}   % nhớ có 't' để nội dung bám lên trên
@@ -118,7 +113,7 @@ File mẫu: `Slide_HPCA.tex` (16:9) và `Slide_HPCA_43.tex` (4:3), nội dung gi
 \end{document}
 ```
 
-## 6. Các lệnh của theme
+## 🗺️  6. Các lệnh của theme
 
 | Lệnh | Tác dụng |
 |---|---|
@@ -166,7 +161,7 @@ Nếu sau phần chính bạn còn frame thường mà không muốn ô số hi�
 
 Các frame dùng `hpcaappendixframe` không có ô số nên không cần lệnh này.
 
-## 7. Tùy chỉnh
+## 🌟 7. Tùy chỉnh
 
 ### Màu sắc
 
@@ -210,7 +205,7 @@ Cỡ chữ quy đổi từ file PowerPoint (nhân 0.4724). Nếu thấy chưa v�
 
 Thay ảnh trong `images/` nhưng **giữ nguyên tên file**. Vị trí và kích thước logo chỉnh trong các lệnh `\hpca@footer` và `\hpca@titlebg` của file `.sty`.
 
-## 8. Lưu ý và lỗi thường gặp
+## ⚠️ 8. Lưu ý và lỗi thường gặp
 
 - **Báo lỗi No PDF và Fatal Package fontspec Error: The fontspec package requires either XeTeX or** : Chuyển compiler sang XeLaTeX thay vì pdfLaTeX trong phần cài đặt của Overleaf.
 - **Mục lục trống hoặc chưa đúng:** chưa compile đủ lượt. Mục lục lấy từ các `\section` nên cần có ít nhất một `\section` trong tài liệu.
@@ -220,7 +215,7 @@ Thay ảnh trong `images/` nhưng **giữ nguyên tên file**. Vị trí và kí
 - **Chữ tiếng Việt mất dấu hoặc lỗi font:** đảm bảo compile bằng XeLaTeX hoặc LuaLaTeX, và file lưu ở mã hóa UTF-8.
 - **Frame quá dài:** nội dung vượt vùng sẽ tràn xuống logo chân trang. Vùng nội dung rộng khoảng 32 cm × 16 cm trên khổ gốc.
 
-## 9. Hạn chế
+## ⚠️ 9. Hạn chế
 
 - Bản màu khác (chỉ có màu navy).
 - Có thể vượt thời gian compile cho phép của Overleaf (yêu cầu nâng cấp).
