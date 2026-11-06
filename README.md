@@ -10,7 +10,9 @@ Theme Beamer LaTeX dựng lại từ template PowerPoint của PECLab / HPCA (Tr
 
 - [Link Overleaf (chỉ xem, muốn sửa cần copy project).](https://www.overleaf.com/project/6aeaf462f59e426e6bf9e3e2/share#e27d23099b18f94c2c4d8d25b04c1641d9eb82c58b8ae70a)
 
+## 📌 Link Github Repo
 
+- [Link Github Repo (dành cho ai có trình biên dịch offline hoặc/và có AI Agent)](https://github.com/pham-tuan-minh/hpca-beamer-slides-template)
 
 ## 📁 1. Cấu trúc thư mục
 
