@@ -17,6 +17,7 @@ Theme Beamer LaTeX dựng lại từ template PowerPoint của PECLab / HPCA (Tr
 ```
 HPCA_beamer/
 ├── beamerthemeHPCA.sty     <- theme (template slide)
+├── beamerthemeHPCAnav.sty  <- file navigation, thể hiện slide đang ở section nào
 ├── Slide_HPCA.tex          <- file chính, nội dung slide (set as main document)
 ├── Slide_HPCA.pdf          <- kết quả mẫu 16:9
 ├── README.md               <- file hướng dẫn, chính là file này
@@ -27,7 +28,7 @@ HPCA_beamer/
     └── logo-hust.png
 ```
 
-File `.tex` của bạn phải nằm **cùng thư mục** với `beamerthemeHPCA.sty` và thư mục `images/`. Nếu chỉ có file `.tex` mà không có file `beamerthemeHPCA.sty` và thư mục `images/` thì compiler sẽ báo lỗi "theme và ảnh không tìm thấy "
+File `.tex` của bạn phải nằm **cùng thư mục** với `beamerthemeHPCA.sty`, `beamerthemeHPCAnav.sty`  và thư mục `images/`. Nếu chỉ có file `.tex` mà không có file `beamerthemeHPCA.sty`  và thư mục `images/` thì compiler sẽ báo lỗi "theme và ảnh không tìm thấy ". Nếu không có `beamerthemeHPCAnav.sty` thì không bị vấn đề gì, chỉ không có file định hướng vị trí slide thuộc section nào. 
 
 ## ⚙️ 2. Cách sử dụng và môi trường biên dịch 
 
@@ -127,10 +128,9 @@ File mẫu: `Slide_HPCA.tex` (16:9) và `Slide_HPCA_43.tex` (4:3), nội dung gi
 
 ### Slide phụ lục có nội dung
 
-`\hpcaappendix{Appendix}` chỉ tạo slide chia phần rỗng. Muốn thêm nội dung vào slide có khối navy, dùng môi trường `hpcaappendixframe`:
+Slide Appendix có khối navy bên trái, tiêu đề và nội dung ở vùng trắng bên phải. Dùng môi trường `hpcaappendixframe`:
 
 ```latex
-\hpcaappendix{Appendix}      % slide chia phần (tùy chọn)
 
 \begin{hpcaappendixframe}{Appendix}{Chứng minh chi tiết}
   \begin{itemize}
@@ -161,7 +161,39 @@ Nếu sau phần chính bạn còn frame thường mà không muốn ô số hi�
 
 Các frame dùng `hpcaappendixframe` không có ô số nên không cần lệnh này.
 
-## 🎨 7. Tùy chỉnh
+
+## 7. Bản có thanh điều hướng (HPCAnav)
+
+Để biết slide đang ở section nào, dùng `HPCAnav` thay cho `HPCA`:
+
+```latex
+\documentclass[aspectratio=169,t,10pt]{beamer}
+\usetheme{HPCAnav}
+```
+
+Theme này nạp `beamerthemeHPCA.sty` rồi thêm vào chân trang:
+
+- Một hàng **ô vuông đánh số**, mỗi `\section` một ô, ngay bên phải logo HPCA. Ô của section hiện tại tô navy, các ô còn lại màu nhạt. Bấm vào ô để nhảy tới section đó.
+- **Tên section hiện tại** bằng chữ nhỏ ở bên trái logo HPCA (tối đa hai dòng).
+
+Thanh điều hướng **không hiện** trên title page và trên các slide phụ lục (`hpcaappendixframe`). Trên slide mục lục, các ô đều màu nhạt vì chưa ở section nào.
+
+| Lệnh | Tác dụng |
+|---|---|
+| `\hidenavigation` / `\shownavigation` | Tắt / bật hàng ô từ frame đó trở đi |
+| `\hidenavname` / `\shownavname` | Tắt / bật tên section ở chân trang |
+| `\renewcommand{\hpcanavbox}{0.75}` | Kích thước ô (đơn vị cm trên slide gốc), đặt sau `\usetheme` |
+| `\renewcommand{\hpcanavgap}{0.20}` | Khoảng cách giữa các ô |
+| `\definecolor{hpcanavoff}{HTML}{DDE1EA}` | Màu nền các ô không phải section hiện tại |
+
+Nếu có nhiều section, hàng ô tự thu nhỏ cho vừa chỗ trống (không đè lên logo). Cũng cần compile đủ lượt như mục 3 (thông tin section lưu trong file `.nav`), và hoạt động ở cả 16:9 lẫn 4:3.
+
+Hai file `.sty` phải nằm cùng thư mục với file `.tex` và thư mục `images/`.
+
+Để không sử dụng navigation, thay thế `\usetheme{HPCAnav}` bằng `\usetheme{HPCA}`.
+
+
+## 🎨 8. Tùy chỉnh
 
 ### Màu sắc
 
@@ -205,7 +237,7 @@ Cỡ chữ quy đổi từ file PowerPoint (nhân 0.4724). Nếu thấy chưa v�
 
 Thay ảnh trong `images/` nhưng **giữ nguyên tên file**. Vị trí và kích thước logo chỉnh trong các lệnh `\hpca@footer` và `\hpca@titlebg` của file `.sty`.
 
-## ⚠️ 8. Lưu ý và lỗi thường gặp
+## ⚠️ 9. Lưu ý và lỗi thường gặp
 
 - **Báo lỗi No PDF và Fatal Package fontspec Error: The fontspec package requires either XeTeX or** : Chuyển compiler sang XeLaTeX thay vì pdfLaTeX trong phần cài đặt của Overleaf.
 - **Mục lục trống hoặc chưa đúng:** chưa compile đủ lượt. Mục lục lấy từ các `\section` nên cần có ít nhất một `\section` trong tài liệu.
@@ -215,7 +247,7 @@ Thay ảnh trong `images/` nhưng **giữ nguyên tên file**. Vị trí và kí
 - **Chữ tiếng Việt mất dấu hoặc lỗi font:** đảm bảo compile bằng XeLaTeX hoặc LuaLaTeX, và file lưu ở mã hóa UTF-8.
 - **Frame quá dài:** nội dung vượt vùng sẽ tràn xuống logo chân trang. Vùng nội dung rộng khoảng 32 cm × 16 cm trên khổ gốc.
 
-## 🚧 9. Hạn chế
+## 🚧 10. Hạn chế
 
 - Bản màu khác (chỉ có màu navy).
 - Có thể vượt thời gian compile cho phép của Overleaf (yêu cầu nâng cấp).

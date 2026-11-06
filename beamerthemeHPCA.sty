@@ -175,13 +175,15 @@
 \newcommand{\showpagenumber}{\global\hpca@pagenumtrue}
 
 % ----- footer shared by every content slide ----------------------------------
-\newcommand{\hpca@footer}{%
+\newcommand{\hpca@footernav}{}   % hook: filled by beamerthemeHPCAnav
+\newcommand{\hpca@footerbase}{%
   \hpca@hline{\hpca@footL}{\hpca@footR}{\hpca@footY}{black}{0.4pt}%
   \hpca@put{0.33}{17.98}{\includegraphics[width=2.70\hpcau]{logo-peclab}}%
   \hpca@putc{0}{17.96}{\includegraphics[width=3.47\hpcau]{logo-hpca}}%
   \ifhpca@pagenum
     \hpca@putr[south east]{0.77}{18.95}{\fontsize{6.5}{8}\selectfont\color{hpcamain}\insertframenumber}%
   \fi}
+\newcommand{\hpca@footer}{\hpca@footerbase\hpca@footernav}
 
 \newcommand{\hpca@contentbg}{%
   \begin{tikzpicture}[remember picture,overlay]
@@ -278,18 +280,14 @@
      \tableofcontents
    \end{frame}}}
 
-% ----- appendix divider: navy panel on the left ----------------------------------
+% ----- appendix background: navy panel on the left (used by hpcaappendixframe) -------
 \newcommand{\hpca@appendixbg}[1]{%
   \begin{tikzpicture}[remember picture,overlay]
     \hpca@hline{9.86}{\hpca@ruleR}{1.52}{hpcarule}{0.4pt}%
     \hpca@put{0}{0}{\textcolor{hpcamain}{\rule{9.86\hpcau}{17.92\hpcau}}}%
     \hpca@put[west]{0.93}{9.10}{\fontsize{17}{20}\selectfont\color{white}#1}%
-    \hpca@footer
+    \hpca@footerbase
   \end{tikzpicture}}
-% \hpcaappendix{Appendix}
-\newcommand{\hpcaappendix}[1]{%
-  {\setbeamertemplate{background}{\hpca@appendixbg{#1}}%
-   \begin{frame}[plain]\end{frame}}}
 
 % Appendix frame WITH content: navy panel on the left (label in the panel),
 % title and content in the white area on the right.

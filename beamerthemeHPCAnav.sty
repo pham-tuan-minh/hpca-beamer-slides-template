@@ -1,0 +1,84 @@
+% ---------------------------------------------------------------------
+% beamerthemeHPCAnav.sty
+% HPCA / PECLab theme + section navigation in the footer.
+%
+% It loads beamerthemeHPCA.sty (keep both files in the same folder) and adds:
+%   - a row of small numbered boxes, one per \section, just right of the
+%     HPCA logo: the current section is filled navy, the others are light;
+%     every box is a hyperlink to the first slide of its section (the row
+%     shrinks automatically if there are too many sections);
+%   - the title of the current section, in small text, to the left of the logo.
+% Not shown on the title page and on appendix slides.
+%
+% Usage:  \usetheme{HPCAnav}        (instead of \usetheme{HPCA})
+% Switch it off / on for some frames:  \hidenavigation  /  \shownavigation
+% Compile with XeLaTeX, repeat until the "Rerun" warning disappears.
+% ---------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeHPCAnav}[2026/11/04 HPCA theme with section navigation]
+
+\usetheme{HPCA}
+
+% ----- switches ------------------------------------------------------------
+\newif\ifhpca@nav      \hpca@navtrue        % navigation boxes
+\newif\ifhpca@navname  \hpca@navnametrue    % current section name
+\newcommand{\hidenavigation}{\global\hpca@navfalse}
+\newcommand{\shownavigation}{\global\hpca@navtrue}
+\newcommand{\hidenavname}{\global\hpca@navnamefalse}
+\newcommand{\shownavname}{\global\hpca@navnametrue}
+
+% box size and gap (pptx cm); can be overridden after \usetheme
+\newcommand{\hpcanavbox}{0.75}
+\newcommand{\hpcanavgap}{0.20}
+
+\definecolor{hpcanavoff}{HTML}{DDE1EA}   % fill of the non-current boxes
+
+% ----- one box per section (beamer templates: current / other sections) -------------
+\newcommand{\hpca@navitem}[2]{% #1 = fill colour, #2 = number colour
+  {\setlength{\fboxsep}{0pt}\colorbox{#1}{\parbox[c][\hpcanavbox\hpcau][c]{\hpcanavbox\hpcau}{\centering
+     \fontsize{7.5}{9}\selectfont\bfseries\color{#2}\insertsectionheadnumber}}}%
+  \hspace{\hpcanavgap\hpcau}}
+\setbeamertemplate{section in head/foot}{\hpca@navitem{hpcamain}{white}}
+\setbeamertemplate{section in head/foot shaded}{\hpca@navitem{hpcanavoff}{hpcamain}}
+
+% ----- tight row of boxes, built from beamer's section list (\dohead) ---------------------
+\newsavebox{\hpca@navsave}
+\newcommand{\hpca@navrow}{%
+  \hbox{%
+    \def\slideentry##1##2##3##4##5##6{}%
+    \def\sectionentry##1##2##3##4##5{%
+      \ifnum##5=\c@part
+        \begingroup
+          \def\insertsectionhead{##2}\def\insertsectionheadnumber{##1}%
+          \ifnum\c@section=##1
+            \hyperlink{Navigation##3}{\usebeamertemplate{section in head/foot}}%
+          \else
+            \hyperlink{Navigation##3}{\usebeamertemplate{section in head/foot shaded}}%
+          \fi
+        \endgroup
+      \fi\ignorespaces}%
+    \dohead}}
+
+% shrink the row if there are too many sections for the free space
+\newcommand{\hpca@navscaled}[1]{% #1 = available width
+  \sbox{\hpca@navsave}{\hpca@navrow}%
+  \ifdim\wd\hpca@navsave>#1
+    \pgfmathsetmacro{\hpca@navscale}{#1/\wd\hpca@navsave}%
+    \scalebox{\hpca@navscale}{\usebox{\hpca@navsave}}%
+  \else
+    \usebox{\hpca@navsave}%
+  \fi}
+
+% ----- footer hook ---------------------------------------------------------------------------
+% centred HPCA logo is 3.47 wide; boxes start 2.4 right of the page centre,
+% the section name ends 2.4 left of it.
+\renewcommand{\hpca@footernav}{%
+  \ifhpca@nav
+    \hpca@putc[south west]{2.4}{18.95}{\hpca@navscaled{\dimexpr.5\paperwidth-4.0\hpcau\relax}}%
+    \ifhpca@navname
+      \hpca@put[south west]{3.40}{18.95}{\parbox[b]{\dimexpr.5\paperwidth-5.8\hpcau\relax}{\raggedright
+        \fontsize{7}{8.4}\selectfont\color{hpcamain}\insertsection}}%
+    \fi
+  \fi}
+
+\endinput
