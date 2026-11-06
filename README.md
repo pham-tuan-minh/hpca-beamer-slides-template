@@ -162,7 +162,7 @@ Nếu sau phần chính bạn còn frame thường mà không muốn ô số hi�
 Các frame dùng `hpcaappendixframe` không có ô số nên không cần lệnh này.
 
 
-## 7. Bản có thanh điều hướng (HPCAnav)
+## 🧭 7. Bản có thanh điều hướng (HPCAnav)
 
 Để biết slide đang ở section nào, dùng `HPCAnav` thay cho `HPCA`:
 
